@@ -12,6 +12,7 @@ This repository is destined to GoBarber application developed at  GoStack Bootca
 - ESLint
 - Prettier
 - Sucrase
+- Nodemon
 
 ## How to use
 
