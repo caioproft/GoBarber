@@ -1,6 +1,16 @@
-# GoBarber
+<h1 align="center">
+    <img alt="GoStack" src="https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/bootcamp-header.png" width="200px" />
+</h1>
+
+<h3 align="center">
+  Projeto: GoBarber
+</h3>
 
 This repository is destined to GoBarber application developed at  GoStack Bootcamp from Rocketseat
+
+## About GoBaber
+
+It is an application designed for barbershops that allows customers to reserve a time and barbershop owners to control their schedule.
 
 ## Technologies
 
@@ -13,6 +23,9 @@ This repository is destined to GoBarber application developed at  GoStack Bootca
 - Prettier
 - Sucrase
 - Nodemon
+- Bcrypt
+- Yup
+- JsonWebToken
 
 ## How to use
 
