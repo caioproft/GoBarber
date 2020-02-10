@@ -31,6 +31,12 @@ class AppointmentController {
         .json({ error: 'O ID informado não é de um fornecedor.' });
     }
 
+    if (provider_id === req.userId) {
+      return res
+        .status(401)
+        .json({ error: 'Não é possível marcar um horário com você mesmo.' });
+    }
+
     const hourStart = startOfHour(parseISO(date));
     console.log(hourStart);
 
