@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { startOfHour, parseISO, isBefore, format } from 'date-fns';
+import { startOfHour, parseISO, isBefore, format, subHours } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import Appointment from '../models/Appointment';
 import User from '../models/User';
@@ -106,6 +106,33 @@ class AppointmentController {
     });
 
     return res.json(appointments);
+  }
+
+  async delete(req, res) {
+    const appointment = await Appointment.findByPk(req.params.id);
+
+    console.log(appointment);
+
+    if (appointment.user_id !== req.userId) {
+      return res.status(401).json({
+        error: 'Você não possui permissão para cancelar este agendamento.',
+      });
+    }
+
+    const maxHourToCancel = subHours(appointment.date, 2);
+
+    if (isBefore(maxHourToCancel, new Date())) {
+      return res.status(401).json({
+        error:
+          'Cancelamentos só são permitidos com até 2 horas de antecedência',
+      });
+    }
+
+    appointment.canceled_at = new Date();
+
+    await appointment.save();
+
+    return res.json(appointment);
   }
 }
 
