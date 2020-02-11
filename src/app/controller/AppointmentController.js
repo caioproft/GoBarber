@@ -39,7 +39,6 @@ class AppointmentController {
     }
 
     const hourStart = startOfHour(parseISO(date));
-    console.log(hourStart);
 
     if (isBefore(hourStart, new Date())) {
       return res.status(400).json({
@@ -117,6 +116,11 @@ class AppointmentController {
           as: 'provider',
           attributes: ['name', 'email'],
         },
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
       ],
     });
 
@@ -140,7 +144,14 @@ class AppointmentController {
     await Mail.sendMail({
       to: `${appointment.provider.name} <${appointment.provider.email}>`,
       subject: 'Cancelamento de agendamento',
-      text: 'Você tem um novo agendamento cancelado.',
+      template: 'cancellation',
+      context: {
+        provider: appointment.provider.name,
+        user: appointment.user.name,
+        date: format(appointment.date, "'Dia' dd 'de' MMMM', às ' H:mm'h'", {
+          locale: pt,
+        }),
+      },
     });
 
     await appointment.save();
